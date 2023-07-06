@@ -183,10 +183,9 @@ def add_text():
         font = ImageFont.load_default()
         draw.text((0, 0), text_ent.get(), (255, 255, 255), font=font)
         img.show()
-
-        # img_with_text_path = os.path.join(save_path, "Filtered_img" + ".jpg")
-        # img_with_text.save(img_with_text_path)
-        # print('Image with Text:', img_with_text_path)
+        img_with_text_path = os.path.join(save_path, "img_with_text" + ".jpg")
+        img.save(img_with_text_path)
+        print('Image with Text:', img_with_text_path)
 
     window = tkinter.Toplevel(root)
     window.title("Add Text to Photo")
