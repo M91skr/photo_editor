@@ -34,22 +34,22 @@ def select_file():
         title='Selected Files',
         message=file)
     file_path = os.path.join(save_path, file_name + ".jpg")
-    img = Image.open(file)
-    img.save(file_path)
+    with Image.open(file) as img:
+        img.save(file_path)
     print('Selected:', file_name)
     status_label.config(text=f'{file_name} Selected')
 
 
 def crop():
-    def save_crop_parameters():
+    def cropping():
         left = int(left_ent.get())
         upper = int(upper_ent.get())
         right = int(right_ent.get())
         lower = int(lower_ent.get())
-        img = Image.open(f"{file_path}")
-        croped_img = img.crop((left, upper, right, lower))
-        croped_img_path = os.path.join(save_path, "croped_img" + ".jpg")
-        croped_img.save(croped_img_path)
+        with Image.open(f"{file_path}") as img:
+            croped_img = img.crop((left, upper, right, lower))
+            croped_img_path = os.path.join(save_path, "croped_img" + ".jpg")
+            croped_img.save(croped_img_path)
         print('Croped:', croped_img_path)
 
     window = tkinter.Toplevel(root)
@@ -77,18 +77,18 @@ def crop():
                       bg=BACKGROUND_COLOR)
     notic_lab.grid(row=4, column=0, columnspan=3, pady=5)
     submit_button = Button(window, text="Submit", fg=FONT_COLOR, bg=BUTTON_COLOR, highlightthickness=0,
-                           command=save_crop_parameters)
+                           command=cropping)
     submit_button.grid(row=5, column=0, pady=5)
 
 
 def resize():
-    def save_resize_parameters():
+    def resizing():
         width = int(width_ent.get())
         height = int(height_ent.get())
-        img = Image.open(f"{file_path}")
-        resized_img = img.resize((width, height))
-        resized_img_path = os.path.join(save_path, "resized_img" + ".jpg")
-        resized_img.save(resized_img_path)
+        with Image.open(f"{file_path}") as img:
+            resized_img = img.resize((width, height))
+            resized_img_path = os.path.join(save_path, "resized_img" + ".jpg")
+            resized_img.save(resized_img_path)
         print('Resized:', resized_img_path)
 
     window = tkinter.Toplevel(root)
@@ -108,17 +108,17 @@ def resize():
                       bg=BACKGROUND_COLOR)
     notic_lab.grid(row=2, column=0, columnspan=3, pady=5)
     submit_button = Button(window, text="Submit", fg=FONT_COLOR, bg=BUTTON_COLOR, highlightthickness=0,
-                           command=save_resize_parameters)
+                           command=resizing)
     submit_button.grid(row=3, column=0, pady=5)
 
 
 def rotate():
-    def save_rotate_parameters():
+    def rotating():
         angle = int(angle_ent.get())
-        img = Image.open(f"{file_path}")
-        rotated_img = img.rotate(angle=angle)
-        rotated_img_path = os.path.join(save_path, "rotated_img" + ".jpg")
-        rotated_img.save(rotated_img_path)
+        with Image.open(f"{file_path}") as img:
+            rotated_img = img.rotate(angle=angle)
+            rotated_img_path = os.path.join(save_path, "rotated_img" + ".jpg")
+            rotated_img.save(rotated_img_path)
         print('Rotated:', rotated_img_path)
 
     window = tkinter.Toplevel(root)
@@ -133,17 +133,17 @@ def rotate():
     notic_lab = Label(window, text='Keep in mind that Angle is in degrees counter clockwise', bg=BACKGROUND_COLOR)
     notic_lab.grid(row=1, column=0, columnspan=3, pady=5)
     submit_button = Button(window, text="Submit", fg=FONT_COLOR, bg=BUTTON_COLOR, highlightthickness=0,
-                           command=save_rotate_parameters)
+                           command=rotating)
     submit_button.grid(row=2, column=0, pady=5)
 
 
 def convert():
-    def save_convert_parameters():
+    def converting():
         selected_mode = clicked.get()
-        img = Image.open(f"{file_path}")
-        converted_img = img.convert(selected_mode)
-        converted_img_path = os.path.join(save_path, "converted_img" + ".jpg")
-        converted_img.save(converted_img_path)
+        with Image.open(f"{file_path}") as img:
+            converted_img = img.convert(selected_mode)
+            converted_img_path = os.path.join(save_path, "converted_img" + ".jpg")
+            converted_img.save(converted_img_path)
         print('Converted:', converted_img_path)
 
     window = tkinter.Toplevel(root)
@@ -172,19 +172,19 @@ def convert():
                                    'RGBX: true color with padding', anchor="e", justify=LEFT, bg=BACKGROUND_COLOR)
     notic_lab.grid(row=2, column=0, columnspan=3, pady=5)
     submit_button = Button(window, text="Submit", fg=FONT_COLOR, bg=BUTTON_COLOR, highlightthickness=0,
-                           command=save_convert_parameters)
+                           command=converting)
     submit_button.grid(row=3, column=0, pady=5)
 
 
 def add_text():
-    def save_text_parameters():
-        img = Image.open(f"{file_path}")
-        draw = ImageDraw.Draw(img)
-        font = ImageFont.load_default()
-        draw.text((0, 0), text_ent.get(), (255, 255, 255), font=font)
-        img.show()
-        img_with_text_path = os.path.join(save_path, "img_with_text" + ".jpg")
-        img.save(img_with_text_path)
+    def adding_text():
+        with Image.open(f"{file_path}") as img:
+            draw = ImageDraw.Draw(img)
+            font = ImageFont.load_default()
+            draw.text((0, 0), text_ent.get(), (255, 255, 255), font=font)
+            img.show()
+            img_with_text_path = os.path.join(save_path, "img_with_text" + ".jpg")
+            img.save(img_with_text_path)
         print('Image with Text:', img_with_text_path)
 
     window = tkinter.Toplevel(root)
@@ -196,7 +196,7 @@ def add_text():
     text_ent = Entry(window)
     text_ent.grid(row=1, column=1, padx=5, pady=5)
     submit_button = Button(window, text="Submit", fg=FONT_COLOR, bg=BUTTON_COLOR, highlightthickness=0,
-                           command=save_text_parameters)
+                           command=adding_text)
     submit_button.grid(row=5, column=0, pady=5)
 
 
