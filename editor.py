@@ -1,7 +1,8 @@
 import os
 from tkinter import Image, Label, Entry, Button, StringVar, OptionMenu, LEFT, filedialog, Toplevel, Tk
 from tkinter.messagebox import showinfo
-
+from colorthief import ColorThief
+import matplotlib
 from PIL import Image, ImageDraw, ImageFont
 
 from command import Command
@@ -44,6 +45,16 @@ class Editor:
                     font = ImageFont.load_default()
                     draw.text((0, 0), self.text_ent.get(), (255, 255, 255), font=font)
                     img.show()
+                case Command.DOMINANT:
+                    hex_list = []
+                    color_thief = ColorThief(f"{self.FILE_PATH}")
+                    dominant_color = color_thief.get_color(quality=1)
+                    palette = color_thief.get_palette(color_count=11)
+                    for color in palette:
+                        hex = '#%02x%02x%02x' % color
+                        hex_list.append(hex)
+                    return dominant_color, hex_list
+
             edited_img_path = os.path.join(self._SAVE_PATH, f'{command.value}_img' + ".jpg")
             edited_image.save(edited_img_path)
 
@@ -186,3 +197,14 @@ class Editor:
             img.save(self.FILE_PATH)
         print('Selected:', file_name)
         self.status_label.config(text=f'{file_name} Selected')
+
+    def dominant(self):
+        window = Toplevel(self.root)
+        window.title("Add Text to Photo")
+        window.geometry('900x200')
+        window.config(bg=self.BACKGROUND_COLOR, padx=50, pady=50)
+        parameter = self._handler(Command.DOMINANT)
+        dominant_color_lab = Label(window, text=f'Dominant Color: {parameter[0]}', bg=self.BACKGROUND_COLOR)
+        dominant_color_lab.grid(row=0, column=0, pady=5)
+        palette_lab = Label(window, text=f'Pallet: {parameter[1]}', bg=self.BACKGROUND_COLOR)
+        palette_lab.grid(row=1, column=0, pady=5)

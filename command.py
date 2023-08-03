@@ -7,3 +7,4 @@ class Command(Enum):
     RESIZE = "resize"
     CONVERT = "convert"
     ADD_TEXT = "add_text"
+    DOMINANT = "dominant"

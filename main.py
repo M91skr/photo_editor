@@ -39,6 +39,10 @@ convert_button = Button(text="Convert Photo", fg=editor.FONT_COLOR, bg=editor.BU
                         command=editor.convert)
 convert_button.grid(column=3, row=4, padx=50)
 
+dominant_button = Button(text="Find Dominant Color", fg=editor.FONT_COLOR, bg=editor.BUTTON_COLOR, highlightthickness=0,
+                        command=editor.dominant)
+dominant_button.grid(column=3, row=5, padx=50)
+
 add_text_button = Button(text="Add Text to Photo", fg=editor.FONT_COLOR, bg=editor.BUTTON_COLOR, highlightthickness=0,
                          command=editor.add_text)
 add_text_button.grid(column=3, row=0, padx=50)
