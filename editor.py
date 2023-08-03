@@ -1,9 +1,9 @@
 import os
 from tkinter import Image, Label, Entry, Button, StringVar, OptionMenu, LEFT, filedialog, Toplevel, Tk
 from tkinter.messagebox import showinfo
-from colorthief import ColorThief
-import matplotlib
+
 from PIL import Image, ImageDraw, ImageFont
+from colorthief import ColorThief
 
 from command import Command
 
